@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 export default function Home() {
+  
   const [mood, setMood] = useState('');
   const [journal, setJournal] = useState('');
   const [prompt, setPrompt] = useState('');
