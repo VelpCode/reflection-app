@@ -3,21 +3,30 @@
 import { useState } from 'react';
 
 export default function Home() {
-  
+
   const [mood, setMood] = useState('');
   const [journal, setJournal] = useState('');
   const [prompt, setPrompt] = useState('');
   const [response, setResponse] = useState('');
 
   const handleGPTRequest = async () => {
-    const res = await fetch('/api/generatePrompt', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+  try {
+    const res = await fetch("/api/generatePrompt", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ mood }),
     });
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+
     const data = await res.json();
     setPrompt(data.prompt);
-  };
+  } catch (error) {
+    console.error("Failed to fetch GPT prompt:", error);
+  }
+};
 
   const handleSaveJournal = () => {
     // Save journal entry logic (to database/local storage)
